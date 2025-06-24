@@ -47,7 +47,7 @@ output "key_vault_uri" {
 }
 
 output "sp_client_id" {
-  value = azuread_application.gh_actions.application_id
+  value = azuread_service_principal.gh_actions.app_id
 }
 
 output "sp_client_secret" {
@@ -58,5 +58,6 @@ output "sp_client_secret" {
 output "sp_tenant_id" {
   value = data.azurerm_client_config.current.tenant_id
 }
+
 
 
