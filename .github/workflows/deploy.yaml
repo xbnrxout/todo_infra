@@ -10,11 +10,19 @@ permissions:
   contents: read
 
 env:
-  AZURE_SUBSCRIPTION_ID: 2c6d9f81-9262-4a26-896d-5f9506a3a339
+  AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
   RESOURCE_GROUP: todo-rg-dev
   CLUSTER_NAME: todo-aks
   TERRAFORM_DIR: terraform
   K8S_MANIFEST_DIR: k8s-manifests
+  PROJECT_NAME: todo
+  ENVIRONMENT: dev
+  GITHUB_REPO: xavrema/todo
+  ACR_NAME: todoacr
+  AKS_NAME: todoaks
+  COSMOS_ACCOUNT_NAME: todocosmos
+  COSMOS_DB_NAME: tododb
+  MONGO_COLLECTION_NAME: todoitems
 
 jobs:
   deploy:
@@ -42,11 +50,35 @@ jobs:
 
       - name: Terraform Plan
         working-directory: ${{ env.TERRAFORM_DIR }}
-        run: terraform plan
+        run: |
+          terraform plan \
+            -input=false \
+            -var="subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }}" \
+            -var="resource_group_name=${{ env.RESOURCE_GROUP }}" \
+            -var="project_name=todo" \
+            -var="environment=dev" \
+            -var="github_repo=xavrema/todo" \
+            -var="acr_name=todoacr" \
+            -var="aks_name=todoaks" \
+            -var="cosmos_account_name=todocosmos" \
+            -var="cosmos_db_name=tododb" \
+            -var="mongo_collection_name=todoitems"
 
       - name: Terraform Apply
         working-directory: ${{ env.TERRAFORM_DIR }}
-        run: terraform apply -auto-approve
+        run: |
+          terraform apply -auto-approve \
+            -input=false \
+            -var="subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }}" \
+            -var="resource_group_name=${{ env.RESOURCE_GROUP }}" \
+            -var="project_name=todo" \
+            -var="environment=dev" \
+            -var="github_repo=xavrema/todo" \
+            -var="acr_name=todoacr" \
+            -var="aks_name=todoaks" \
+            -var="cosmos_account_name=todocosmos" \
+            -var="cosmos_db_name=tododb" \
+            -var="mongo_collection_name=todoitems"
 
       - name: Get AKS credentials
         run: |
