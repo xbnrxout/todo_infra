@@ -3,18 +3,18 @@ resource "azuread_application" "gh_actions" {
 }
 
 resource "azuread_service_principal" "gh_actions" {
-  application_id = azuread_application.gh_actions.application_id
+  client_id = azuread_application.gh_actions.application_id
+}
+
+resource "random_password" "sp_password" {
+  length  = 32
+  special = true
 }
 
 resource "azuread_service_principal_password" "gh_actions" {
   service_principal_id = azuread_service_principal.gh_actions.id
   value                = random_password.sp_password.result
   end_date_relative    = "8760h" # 1 year
-}
-
-resource "random_password" "sp_password" {
-  length  = 32
-  special = true
 }
 
 resource "azurerm_role_assignment" "gh_actions_rg" {

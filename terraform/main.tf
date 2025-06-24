@@ -194,3 +194,13 @@ data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }
 
+terraform {
+  required_providers {
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = ">= 2.47.0"
+    }
+  }
+}
+
+provider "azuread" {}

@@ -58,3 +58,5 @@ output "sp_client_secret" {
 output "sp_tenant_id" {
   value = data.azurerm_client_config.current.tenant_id
 }
+
+
