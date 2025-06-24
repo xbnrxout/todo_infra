@@ -37,7 +37,7 @@ jobs:
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
@@ -52,33 +52,31 @@ jobs:
         working-directory: ${{ env.TERRAFORM_DIR }}
         run: |
           terraform plan \
-            -input=false \
-            -var="subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }}" \
-            -var="resource_group_name=${{ env.RESOURCE_GROUP }}" \
+            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+            -var="resource_group_name=todo-rg" \
             -var="project_name=todo" \
             -var="environment=dev" \
-            -var="github_repo=xavrema/todo" \
-            -var="acr_name=todoacr" \
-            -var="aks_name=todoaks" \
-            -var="cosmos_account_name=todocosmos" \
-            -var="cosmos_db_name=tododb" \
-            -var="mongo_collection_name=todoitems"
+            -var="github_repo=xavrema/todo_infra" \
+            -var="acr_name=todoregistryxyz" \
+            -var="aks_name=todo-aks" \
+            -var="cosmos_account_name=todo-cosmosdb-dev" \
+            -var="cosmos_db_name=todo-db" \
+            -var="mongo_collection_name=users"
 
       - name: Terraform Apply
         working-directory: ${{ env.TERRAFORM_DIR }}
         run: |
           terraform apply -auto-approve \
-            -input=false \
-            -var="subscription_id=${{ env.AZURE_SUBSCRIPTION_ID }}" \
-            -var="resource_group_name=${{ env.RESOURCE_GROUP }}" \
+            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+            -var="resource_group_name=todo-rg" \
             -var="project_name=todo" \
             -var="environment=dev" \
-            -var="github_repo=xavrema/todo" \
-            -var="acr_name=todoacr" \
-            -var="aks_name=todoaks" \
-            -var="cosmos_account_name=todocosmos" \
-            -var="cosmos_db_name=tododb" \
-            -var="mongo_collection_name=todoitems"
+            -var="github_repo=xavrema/todo_infra" \
+            -var="acr_name=todoregistryxyz" \
+            -var="aks_name=todo-aks" \
+            -var="cosmos_account_name=todo-cosmosdb-dev" \
+            -var="cosmos_db_name=todo-db" \
+            -var="mongo_collection_name=users"
 
       - name: Get AKS credentials
         run: |

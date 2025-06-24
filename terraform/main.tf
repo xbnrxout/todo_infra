@@ -1,6 +1,8 @@
 locals {
   sanitized_project_name = replace(lower(var.project_name), "[^a-z0-9-]", "")
   sanitized_environment  = replace(lower(var.environment), "[^a-z0-9-]", "")
+  sanitized_github_repo = replace(var.github_repo, "[^a-zA-Z0-9]", "-")
+  
 }
 
 terraform {
