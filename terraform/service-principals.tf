@@ -3,8 +3,10 @@ resource "azuread_application" "gh_actions" {
 }
 
 resource "azuread_service_principal" "gh_actions" {
-  application_id = azuread_application.gh_actions.application_id
+  client_id = azuread_application.gh_actions.application_id
+  owners    = [data.azuread_client_config.current.object_id]
 }
+
 
 resource "random_password" "sp_password" {
   length  = 32
