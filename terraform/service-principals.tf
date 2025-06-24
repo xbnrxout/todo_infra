@@ -25,7 +25,7 @@ resource "azuread_application_password" "gh_actions" {
 
 
 resource "azurerm_role_assignment" "gh_actions_rg" {
-  scope                = data.azurerm_resource_group.main.id
+  scope                = azurerm_resource_group.main.id
   role_definition_name = "Contributor"
   principal_id         = azuread_service_principal.gh_actions.object_id
 }

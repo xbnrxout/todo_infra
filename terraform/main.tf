@@ -190,7 +190,7 @@ resource "azurerm_role_assignment" "csi_kv_read" {
   scope                = azurerm_key_vault.main.id
 }
 
-data "azurerm_resource_group" "main" {
-  name = var.resource_group_name
-}
+# data "azurerm_resource_group" "main" {
+#   name = var.resource_group_name
+# }
 
