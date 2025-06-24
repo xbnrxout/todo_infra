@@ -1,0 +1,58 @@
+name: Infra + App Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AZURE_SUBSCRIPTION_ID: 2c6d9f81-9262-4a26-896d-5f9506a3a339
+  RESOURCE_GROUP: todo-rg-dev
+  CLUSTER_NAME: todo-aks
+  TERRAFORM_DIR: terraform
+  K8S_MANIFEST_DIR: k8s-manifests
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure via OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Terraform Init
+        working-directory: ${{ env.TERRAFORM_DIR }}
+        run: terraform init
+
+      - name: Terraform Apply
+        working-directory: ${{ env.TERRAFORM_DIR }}
+        run: terraform apply -auto-approve
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --name ${{ env.CLUSTER_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --overwrite-existing
+
+      - name: Deploy CSI SecretProviderClass
+        run: kubectl apply -f ${{ env.K8S_MANIFEST_DIR }}/secretproviderclass.yaml
+
+      - name: Deploy App
+        run: kubectl apply -f ${{ env.K8S_MANIFEST_DIR }}/deployment-with-secret.yaml
