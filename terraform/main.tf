@@ -1,8 +1,8 @@
 locals {
   sanitized_project_name = replace(lower(var.project_name), "[^a-z0-9-]", "")
   sanitized_environment  = replace(lower(var.environment), "[^a-z0-9-]", "")
-  sanitized_github_repo = replace(var.github_repo, "[^a-zA-Z0-9]", "-")
-  
+  sanitized_github_repo  = replace(var.github_repo, "[^a-zA-Z0-9]", "-")
+
 }
 
 terraform {
@@ -76,13 +76,13 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
 
 # Azure Key Vault
 resource "azurerm_key_vault" "main" {
-  name                        = "${var.project_name}-kv-${var.environment}"
-  location                    = azurerm_resource_group.main.location
-  resource_group_name         = azurerm_resource_group.main.name
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
-  sku_name                    = "standard"
-  purge_protection_enabled    = true
-  soft_delete_retention_days  = 7
+  name                       = "${var.project_name}-kv-${var.environment}"
+  location                   = azurerm_resource_group.main.location
+  resource_group_name        = azurerm_resource_group.main.name
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  sku_name                   = "standard"
+  purge_protection_enabled   = true
+  soft_delete_retention_days = 7
 }
 
 # Grant Terraform client access to Key Vault

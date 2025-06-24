@@ -41,17 +41,17 @@ output "github_identity_client_id" {
 output "github_identity_principal_id" {
   description = "Principal ID of the GitHub OIDC user-assigned managed identity"
   value       = azurerm_user_assigned_identity.github_identity.principal_id
-} 
+}
 output "key_vault_uri" {
   value = azurerm_key_vault.main.vault_uri
 }
 
 output "sp_client_id" {
-  value = azuread_service_principal.gh_actions.app_id
+  value = azuread_application.gh_actions.id
 }
 
 output "sp_client_secret" {
-  value     = azuread_service_principal_password.gh_actions.value
+  value     = azuread_application_password.gh_actions.value
   sensitive = true
 }
 
