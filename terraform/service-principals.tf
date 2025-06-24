@@ -3,7 +3,7 @@ resource "azuread_application" "gh_actions" {
 }
 
 resource "azuread_service_principal" "gh_actions" {
-  client_id = azuread_application.gh_actions.application_id
+  client_id = azuread_application.gh_actions.app_id
   owners    = [data.azuread_client_config.current.object_id]
 }
 
@@ -30,3 +30,5 @@ resource "azurerm_role_assignment" "gh_actions_kv" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azuread_service_principal.gh_actions.object_id
 }
+
+data "azuread_client_config" "current" {}
