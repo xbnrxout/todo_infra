@@ -31,7 +31,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
+      - name: Clear Azure CLI cache
+        run: rm -rf ~/.azure
       - name: Azure login (OIDC)
         uses: azure/login@v2
         with:
