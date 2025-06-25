@@ -45,10 +45,6 @@ output "github_identity_principal_id" {
 output "key_vault_uri" {
   value = azurerm_key_vault.main.vault_uri
 }
-output "sp_client_id" {
-  value = data.azuread_application.gh_actions.client_id
-}
-
 output "sp_tenant_id" {
   value = data.azurerm_client_config.current.tenant_id
 }
