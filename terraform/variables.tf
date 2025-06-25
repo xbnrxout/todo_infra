@@ -53,3 +53,8 @@ variable "github_repo" {
   description = "GitHub repo name in owner/repo format"
   type        = string
 }
+
+variable "gh_app_id" {
+  description = "Azure AD App (Client) ID for GitHub OIDC"
+  type        = string
+}
