@@ -1,12 +1,12 @@
 data "azuread_client_config" "current" {}
 
-variable "gh_client_id" {
+variable "gh_app_id" {
   description = "Client ID of the GitHub OIDC application"
   type        = string
 }
 
 data "azuread_service_principal" "gh_actions" {
-  client_id = var.gh_client_id
+  client_id = var.gh_app_id
 }
 
 resource "azurerm_role_assignment" "gh_actions_rg" {
