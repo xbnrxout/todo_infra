@@ -55,10 +55,13 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.6
-
-      - name: Terraform Init
+      - name: Terraform Init (Debug Mode)
         working-directory: ${{ env.TERRAFORM_DIR }}
-        run: terraform init
+        run: |
+          echo "Working directory contents:"
+          ls -lah
+          echo "Running terraform init..."
+          terraform init -input=false -no-color -upgrade -lock=false
 
       - name: Terraform Plan
         working-directory: ${{ env.TERRAFORM_DIR }}
