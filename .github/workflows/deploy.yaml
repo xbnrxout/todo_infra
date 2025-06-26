@@ -60,10 +60,9 @@ jobs:
       - name: Terraform Init (Debug Mode)
         working-directory: ${{ env.TERRAFORM_DIR }}
         run: |
-          echo "Working directory contents:"
-          ls -lah
-          echo "Running terraform init..."
-          terraform init -input=false -no-color -upgrade -lock=false
+          terraform init -input=false -no-color -upgrade -lock=false \
+            -backend-config="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+            -backend-config="client_id=${{ secrets.AZURE_CLIENT_ID }}"
 
       - name: Terraform Plan
         working-directory: ${{ env.TERRAFORM_DIR }}
