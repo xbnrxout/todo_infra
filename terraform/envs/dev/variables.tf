@@ -43,3 +43,19 @@ variable "github_repo" {
   description = "GitHub repo in 'owner/repo' format"
   type        = string
 }
+
+variable "resource_group_name" {
+  description = "Name of the resource group to deploy into"
+  type        = string
+}
+
+variable "cosmos_account_name" {
+  description = "Azure CosmosDB account name"
+  type        = string
+}
+
+variable "gh_app_id" {
+  description = "Client (application) ID of the GitHub‐Actions Service Principal"
+  type        = string
+}
+
