@@ -13,7 +13,7 @@ env:
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   RESOURCE_GROUP: todo-rg-dev
   CLUSTER_NAME: todo-aks-dev
-  TERRAFORM_DIR: envs/dev # << correct path
+  TERRAFORM_DIR: terraform/envs/dev
   K8S_MANIFEST_DIR: k8s-manifests
   PROJECT_NAME: todo
   ENVIRONMENT: dev
@@ -102,6 +102,11 @@ jobs:
       - name: Deploy CSI SecretProviderClass
         run: |
           kubectl apply -f ${{ env.K8S_MANIFEST_DIR }}/secretproviderclass.yaml
+
+      - name: Verify K8s manifests exist
+        run: |
+          test -f "${{ env.K8S_MANIFEST_DIR }}/secretproviderclass.yaml"
+          test -f "${{ env.K8S_MANIFEST_DIR }}/deployment-with-secret.yaml"
 
       - name: Deploy App
         run: |
