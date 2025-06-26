@@ -10,7 +10,6 @@ permissions:
   contents: read
 
 env:
-  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   RESOURCE_GROUP: todo-rg-dev
   CLUSTER_NAME: todo-aks-dev
   TERRAFORM_DIR: terraform/envs/dev
@@ -23,11 +22,10 @@ env:
   COSMOS_ACCOUNT_NAME: todocosmos
   COSMOS_DB_NAME: tododb
   MONGO_COLLECTION_NAME: todoitems
-  AZURE_CLIENT_ID:       ${{ secrets.AZURE_CLIENT_ID }}
-  AZURE_CLIENT_SECRET:   ${{ secrets.AZURE_CLIENT_SECRET }}
-  AZURE_TENANT_ID:       ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
 
 jobs:
   deploy:
@@ -45,11 +43,10 @@ jobs:
       - name: Azure login (Service Principal)
         uses: azure/login@v2
         with:
-          client-id:       ${{ env.AZURE_CLIENT_ID }}
-          tenant-id:       ${{ env.AZURE_TENANT_ID }}
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
           subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
-          auth-type:       service-principal
-
+          auth-type: service-principal
 
       - name: Set Azure subscription
         run: az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
