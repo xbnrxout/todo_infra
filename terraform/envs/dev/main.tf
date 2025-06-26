@@ -19,12 +19,14 @@ terraform {
 
   required_version = ">= 1.4.0"
 
-    backend "azurerm" {
-        resource_group_name   = "tfstate-rg"
-        storage_account_name  = "tfstatestorage6092"
-        container_name        = "tfstate"
-        key                   = "dev.tfstate"
-    }
+  backend "azurerm" {
+    resource_group_name   = "tfstate-rg"
+    storage_account_name  = "tfstatestorage6092"
+    container_name        = "tfstate"
+    key                   = "dev.tfstate"
+    use_oidc              = true
+    use_azuread_auth      = true
+  }
 }
 
 
