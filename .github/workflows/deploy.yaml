@@ -57,10 +57,15 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.6
-      - name: Terraform Init (Debug Mode)
+      - name: Terraform Init (OIDC + Reconfigure)
         working-directory: ${{ env.TERRAFORM_DIR }}
         run: |
-          terraform init -input=false -no-color -upgrade -lock=false \
+          terraform init \
+            -input=false \
+            -no-color \
+            -upgrade \
+            -lock=false \
+            -reconfigure \
             -backend-config="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
             -backend-config="client_id=${{ secrets.AZURE_CLIENT_ID }}"
 
